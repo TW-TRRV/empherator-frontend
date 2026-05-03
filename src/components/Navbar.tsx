@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { MdMenu, MdOutlineSearch, MdOutlineShoppingCart } from "react-icons/md";
 import { Link } from "react-router-dom";
 
@@ -21,6 +21,14 @@ export const Navbar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isWideMenuOpen, setIsWideMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isSearchOpen && searchInputRef.current) {
+      // Focus after a short delay to allow transition to start, or focus immediately
+      searchInputRef.current.focus();
+    }
+  }, [isSearchOpen]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -40,12 +48,13 @@ export const Navbar = () => {
   return (
     <div>
       {/* Spotlight Search Overlay */}
-      {isSearchOpen && (
+      <div
+        className={`fixed inset-0 bg-obscure-darker/90 z-50 flex items-center justify-center p-4 transition-opacity duration-700 ${
+          isSearchOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+        onClick={() => setIsSearchOpen(false)}
+      >
         <div
-          className="fixed inset-0 bg-obscure-darker/90 z-50 flex items-center justify-center p-4 "
-          onClick={() => setIsSearchOpen(false)}
-        >
-          <div
             className="relative w-full max-w-3xl"
             onClick={(e) => e.stopPropagation()}
           >
@@ -58,15 +67,14 @@ export const Navbar = () => {
             <div className="flex items-center bg-obscure border-b border-emph pb-2 p-3 ">
               <MdOutlineSearch className="text-3xl text-clarity-light mr-4" />
               <input
+                ref={searchInputRef}
                 type="text"
                 placeholder="Search catalog..."
                 className="w-full bg-transparent border-none outline-none text-2xl text-clarity-lighter placeholder-clarity"
-                autoFocus
               />
             </div>
-          </div>
         </div>
-      )}
+      </div>
 
       <nav className="fixed z-50 top-0 bg-obscure-darker border-b border-obscure-lightest h-20 w-full px-4 md:px-8 lg:px-20">
         <div className="flex w-full h-full items-center justify-between md:justify-start relative">
@@ -83,7 +91,7 @@ export const Navbar = () => {
           </div>
           <div className="hidden md:flex flex-1 justify-center items-center">
             <NavLink text="HOME" hrf="/"></NavLink>
-            <NavLink text="HARDWARE" hrf="/"></NavLink>
+            <NavLink text="HARDWARE" hrf="/catalog"></NavLink>
             <NavLink text="LOGIN" hrf="/"></NavLink>
           </div>
           <div className="flex items-center text-3xl text-clarity-light gap-4 md:flex-1 md:justify-end">
@@ -180,7 +188,7 @@ export const Navbar = () => {
           </div>
           <div className="mt-6 flex flex-col space-y-4 items-center">
             <NavLink text="HOME" hrf="/" className="mx-0!"></NavLink>
-            <NavLink text="HARDWARE" hrf="/" className="mx-0!"></NavLink>
+            <NavLink text="HARDWARE" hrf="/catalog" className="mx-0!"></NavLink>
             <NavLink text="LOGIN" hrf="/" className="mx-0!"></NavLink>
           </div>
         </div>
