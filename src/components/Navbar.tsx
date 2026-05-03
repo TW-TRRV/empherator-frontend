@@ -5,11 +5,12 @@ import { Link } from "react-router-dom";
 interface NavLinkProps {
   text: string;
   hrf: string;
+  className?: string;
 }
 
-const NavLink = ({ text, hrf }: NavLinkProps) => {
+const NavLink = ({ text, hrf, className = "" }: NavLinkProps) => {
   return (
-    <div className="mx-7.5 text-sm font-bold text-clarity-light hover:text-emph-light hover:underline transition-all duration-300">
+    <div className={`mx-3 lg:mx-7.5 text-sm font-bold text-clarity-light hover:text-emph-light hover:underline transition-all duration-300 ${className}`}>
       <Link to={hrf}>{text}</Link>
     </div>
   );
@@ -40,8 +41,14 @@ export const Navbar = () => {
     <div>
       {/* Spotlight Search Overlay */}
       {isSearchOpen && (
-        <div className="fixed inset-0 bg-obscure-darker/90 z-50 flex items-center justify-center p-4">
-          <div className="relative w-full max-w-3xl">
+        <div
+          className="fixed inset-0 bg-obscure-darker/90 z-50 flex items-center justify-center p-4"
+          onClick={() => setIsSearchOpen(false)}
+        >
+          <div
+            className="relative w-full max-w-3xl"
+            onClick={(e) => e.stopPropagation()}
+          >
             <button
               onClick={() => setIsSearchOpen(false)}
               className="absolute -top-12 right-0 text-clarity-light hover:text-clarity-lighter text-3xl cursor-pointer transition-colors"
@@ -61,7 +68,7 @@ export const Navbar = () => {
         </div>
       )}
 
-      <nav className="fixed z-50 top-0 bg-obscure-darker border-b border-obscure-lightest h-20 w-full px-4 md:px-20">
+      <nav className="fixed z-50 top-0 bg-obscure-darker border-b border-obscure-lightest h-20 w-full px-4 md:px-8 lg:px-20">
         <div className="flex w-full h-full items-center justify-between md:justify-start relative">
           <div className="flex text-2xl items-center md:flex-1">
             <button
@@ -101,7 +108,7 @@ export const Navbar = () => {
 
       {/* Wide Burger Menu (Explore with Search Filters) */}
       <div
-        className={`hidden md:block fixed z-40 top-20 left-0 w-full bg-obscure-lighter border-b border-obscure-lightest transition-transform duration-300 transform ${
+        className={`hidden md:block fixed z-40 top-20 left-0 w-full bg-obscure-lighter border-b border-obscure-lightest transition-all duration-300 transform ${
           isWideMenuOpen ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none"
         }`}
       >
@@ -116,7 +123,7 @@ export const Navbar = () => {
             </button>
           </div>
 
-          <div className="grid grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             <div>
               <h3 className="text-sm font-bold text-clarity-light mb-4">Categories</h3>
               <ul className="space-y-3">
@@ -158,7 +165,7 @@ export const Navbar = () => {
 
       {/* Mobile Burger Menu (Search Field Only) */}
       <div
-        className={`md:hidden fixed z-40 top-20 left-0 w-full bg-obscure-lighter border-b border-obscure-lightest transition-transform duration-300 transform ${
+        className={`md:hidden fixed z-40 top-20 left-0 w-full bg-obscure-lighter border-b border-obscure-lightest transition-all duration-300 transform ${
           isMobileMenuOpen ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none"
         }`}
       >
@@ -172,9 +179,9 @@ export const Navbar = () => {
             />
           </div>
           <div className="mt-6 flex flex-col space-y-4 items-center">
-            <NavLink text="HOME" hrf="/"></NavLink>
-            <NavLink text="HARDWARE" hrf="/"></NavLink>
-            <NavLink text="LOGIN" hrf="/"></NavLink>
+            <NavLink text="HOME" hrf="/" className="!mx-0"></NavLink>
+            <NavLink text="HARDWARE" hrf="/" className="!mx-0"></NavLink>
+            <NavLink text="LOGIN" hrf="/" className="!mx-0"></NavLink>
           </div>
         </div>
       </div>
