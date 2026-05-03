@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "@/pages/Home";
+import Cart from "@/pages/Cart";
+
 import Register from "@/pages/Register";
 import Login from "@/pages/Login";
 import Catalog from "@/pages/Catalog";
@@ -17,6 +19,10 @@ const router = createBrowserRouter([
     element: <Login></Login>,
    },
   {
+    path: '/cart',
+    element: <Cart></Cart>,
+  },
+  {
     path: '/register',
     element: <Register></Register>,
   },
@@ -28,11 +34,6 @@ const router = createBrowserRouter([
     path: '/catalog',
     element: <Catalog />,
   },
-  // {
-  //   // The :userId denotes a dynamic URL parameter
-  //   path: '/profile/:userId',
-  //   element: <Profile />,
-  // },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
