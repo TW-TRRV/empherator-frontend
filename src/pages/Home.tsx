@@ -2,6 +2,9 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Icon from "@/assets/home-hero.png";
 import { Link } from "react-router-dom";
+import Categories from "@/components/Categories";
+import FeaturedProducts from "@/components/FeaturedProducts";
+import Newsletter from "@/components/Newsletter";
 
 const Hero = () => {
   const gradient =
@@ -42,6 +45,9 @@ export const Home = () => {
     <div>
       <Navbar />
       <Hero />
+      <Categories />
+      <FeaturedProducts />
+      <Newsletter />
       <Footer />
     </div>
   );
