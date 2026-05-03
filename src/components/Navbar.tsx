@@ -83,7 +83,7 @@ export const Navbar = () => {
           </div>
           <div className="hidden md:flex flex-1 justify-center items-center">
             <NavLink text="HOME" hrf="/"></NavLink>
-            <NavLink text="HARDWARE" hrf="/"></NavLink>
+            <NavLink text="HARDWARE" hrf="/catalog"></NavLink>
             <NavLink text="LOGIN" hrf="/"></NavLink>
           </div>
           <div className="flex items-center text-3xl text-clarity-light gap-4 md:flex-1 md:justify-end">
@@ -180,7 +180,7 @@ export const Navbar = () => {
           </div>
           <div className="mt-6 flex flex-col space-y-4 items-center">
             <NavLink text="HOME" hrf="/" className="mx-0!"></NavLink>
-            <NavLink text="HARDWARE" hrf="/" className="mx-0!"></NavLink>
+            <NavLink text="HARDWARE" hrf="/catalog" className="mx-0!"></NavLink>
             <NavLink text="LOGIN" hrf="/" className="mx-0!"></NavLink>
           </div>
         </div>
