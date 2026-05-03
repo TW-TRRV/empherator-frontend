@@ -3,6 +3,8 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";
+import Catalog from "@/pages/Catalog";
+import Product from "./pages/Product";
 
 const router = createBrowserRouter([
   {
@@ -12,6 +14,14 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login></Login>,
+   },
+  {
+    path: '/product/:productId',
+    element: <Product />,
+  },
+  {
+    path: '/catalog',
+    element: <Catalog />,
   },
   // {
   //   // The :userId denotes a dynamic URL parameter
