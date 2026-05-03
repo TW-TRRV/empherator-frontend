@@ -23,7 +23,7 @@ const Product = () => {
 
             {/* Image Gallery */}
             <div className="flex flex-col gap-4">
-              <div className="w-full aspect-[16/10] bg-obscure-lightest rounded-lg overflow-hidden">
+              <div className="w-full aspect-16/10 bg-obscure-lightest rounded-lg overflow-hidden">
                 <img
                   src={placeholderImageUrl}
                   alt="Main Product Placeholder"
@@ -89,32 +89,32 @@ const Product = () => {
               <h2 className="text-3xl font-black text-clarity-lighter uppercase tracking-tight mb-2">
                 TECHNICAL PROWESS
               </h2>
-              <div className="w-16 h-1 bg-gradient-to-r from-emph to-transparent mb-16"></div>
+              <div className="w-16 h-1 bg-linear-to-r from-emph to-transparent mb-16"></div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {/* Feature 1 (Span 2 cols on lg) */}
-                <div className="lg:col-span-2 bg-obscure p-8 border border-obscure-lightest flex flex-col justify-center min-h-[200px]">
+                <div className="lg:col-span-2 bg-obscure p-8 border border-obscure-lightest flex flex-col justify-center min-h-50">
                    <div className="text-emph-light text-2xl mb-4">⚡</div>
                    <h3 className="text-xl font-bold text-clarity-lighter uppercase mb-2">PLACEHOLDER POLLING</h3>
                    <p className="text-clarity text-sm">PLACEHOLDER processing chip ensures every keystroke is registered before your brain even finishes the press.</p>
                 </div>
 
                 {/* Feature 2 */}
-                <div className="bg-obscure p-8 border border-obscure-lightest flex flex-col justify-center min-h-[200px]">
+                <div className="bg-obscure p-8 border border-obscure-lightest flex flex-col justify-center min-h-50">
                    <div className="text-emph-light text-2xl mb-4">🦾</div>
                    <h3 className="text-sm font-bold text-clarity-lighter uppercase mb-2">PLACEHOLDER ALUMINUM</h3>
                    <p className="text-clarity text-xs">PLACEHOLDER frame for zero-flex durability.</p>
                 </div>
 
                  {/* Feature 3 */}
-                 <div className="bg-obscure p-8 border border-obscure-lightest flex flex-col justify-center min-h-[200px]">
+                 <div className="bg-obscure p-8 border border-obscure-lightest flex flex-col justify-center min-h-50">
                    <div className="text-emph-light text-2xl mb-4">💡</div>
                    <h3 className="text-sm font-bold text-clarity-lighter uppercase mb-2">PLACEHOLDER RGB</h3>
                    <p className="text-clarity text-xs">PLACEHOLDER colors with hardware-level control.</p>
                 </div>
 
                 {/* Feature 4 (Meter) */}
-                <div className="lg:col-span-2 bg-obscure p-8 border border-obscure-lightest flex flex-col justify-center min-h-[200px]">
+                <div className="lg:col-span-2 bg-obscure p-8 border border-obscure-lightest flex flex-col justify-center min-h-50">
                    <div className="flex justify-between items-center mb-6">
                       <div className="text-emph-light text-2xl">📈</div>
                       <div className="text-right">
