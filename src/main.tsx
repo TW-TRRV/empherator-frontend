@@ -4,21 +4,36 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "@/pages/Home";
 import Cart from "@/pages/Cart";
 
+import Register from "@/pages/Register";
+import Login from "@/pages/Login";
+import Catalog from "@/pages/Catalog";
+import Product from "./pages/Product";
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Home></Home>,
+  },
+  {
+    path: '/login',
+    element: <Login></Login>,
    },
   {
     path: '/cart',
     element: <Cart></Cart>,
   },
-  // {
-  //   // The :userId denotes a dynamic URL parameter
-  //   path: '/profile/:userId',
-  //   element: <Profile />,
-  // },
+  {
+    path: '/register',
+    element: <Register></Register>,
+  },
+  {
+    path: '/product/:productId',
+    element: <Product />,
+  },
+  {
+    path: '/catalog',
+    element: <Catalog />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
