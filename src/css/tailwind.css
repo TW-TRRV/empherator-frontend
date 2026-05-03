@@ -24,4 +24,25 @@
 	--color-clarity: #71717A; 
 	--color-clarity-dark: #52525B;
 	--color-clarity-darker: #3F3F46;
+}
+
+@layer utilities {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 12px;
   }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: var(--color-obscure-lightest);
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--color-emph);
+    border-radius: 0px;
+  }
+
+  /* Firefox */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-emph) var(--color-obscure-lightest);
+  }
+}

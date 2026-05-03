@@ -101,9 +101,9 @@ export const Navbar = () => {
             >
               <MdOutlineSearch />
             </button>
-            <button className="hover:text-emph-light transition-all duration-300 cursor-pointer">
+            <Link to="/cart" className="hover:text-emph-light transition-all duration-300 cursor-pointer">
               <MdOutlineShoppingCart />
-            </button>
+            </Link>
             <button
               className="md:hidden text-emph text-3xl cursor-pointer"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
