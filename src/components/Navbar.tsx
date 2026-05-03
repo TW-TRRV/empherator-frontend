@@ -42,7 +42,7 @@ export const Navbar = () => {
       {/* Spotlight Search Overlay */}
       {isSearchOpen && (
         <div
-          className="fixed inset-0 bg-obscure-darker/90 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-obscure-darker/90 z-50 flex items-center justify-center p-4 "
           onClick={() => setIsSearchOpen(false)}
         >
           <div
@@ -55,7 +55,7 @@ export const Navbar = () => {
             >
               &times;
             </button>
-            <div className="flex items-center bg-obscure border-b border-emph pb-2">
+            <div className="flex items-center bg-obscure border-b border-emph pb-2 p-3 ">
               <MdOutlineSearch className="text-3xl text-clarity-light mr-4" />
               <input
                 type="text"
@@ -179,9 +179,9 @@ export const Navbar = () => {
             />
           </div>
           <div className="mt-6 flex flex-col space-y-4 items-center">
-            <NavLink text="HOME" hrf="/" className="!mx-0"></NavLink>
-            <NavLink text="HARDWARE" hrf="/" className="!mx-0"></NavLink>
-            <NavLink text="LOGIN" hrf="/" className="!mx-0"></NavLink>
+            <NavLink text="HOME" hrf="/" className="mx-0!"></NavLink>
+            <NavLink text="HARDWARE" hrf="/" className="mx-0!"></NavLink>
+            <NavLink text="LOGIN" hrf="/" className="mx-0!"></NavLink>
           </div>
         </div>
       </div>
