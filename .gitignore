@@ -22,4 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Build artifacts
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
 \ntsconfig.node.tsbuildinfo\ntsconfig.tsbuildinfo\nvite.config.d.ts\nvite.config.js
