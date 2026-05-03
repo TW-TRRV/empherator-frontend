@@ -1,14 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import Home from "@/pages/Home";
 
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <div><Navbar /> <div className="h-120"></div><Footer/></div>,
+    element: <Home></Home>,
    },
   // {
   //   // The :userId denotes a dynamic URL parameter

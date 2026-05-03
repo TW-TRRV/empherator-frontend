@@ -14,11 +14,12 @@
 	  "strict": true,
 	  "noUnusedLocals": true,
 	  "noUnusedParameters": true,
-	  "noFallthroughCasesInSwitch": true
-	},
-	"include": ["src"],
-	"references": [{ "path": "./tsconfig.node.json" }],
-	"paths": {
-		"@/*": ["./*"]
+	  "noFallthroughCasesInSwitch": true,
+	  
+	  "paths": {
+		"@/*": ["./src/*"],
 	  }
+	},
+	"include": ["src", "declarations.d.ts", "declarations.d.ts"],
+	"references": [{ "path": "./tsconfig.node.json" }]
   }
