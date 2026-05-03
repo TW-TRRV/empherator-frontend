@@ -2,13 +2,17 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "@/pages/Home";
-
+import Login from "@/pages/Login";
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Home></Home>,
-   },
+  },
+  {
+    path: '/login',
+    element: <Login></Login>,
+  },
   // {
   //   // The :userId denotes a dynamic URL parameter
   //   path: '/profile/:userId',

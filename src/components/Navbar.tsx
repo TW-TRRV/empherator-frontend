@@ -92,7 +92,7 @@ export const Navbar = () => {
           <div className="hidden md:flex flex-1 justify-center items-center">
             <NavLink text="HOME" hrf="/"></NavLink>
             <NavLink text="HARDWARE" hrf="/"></NavLink>
-            <NavLink text="LOGIN" hrf="/"></NavLink>
+            <NavLink text="LOGIN" hrf="/login"></NavLink>
           </div>
           <div className="flex items-center text-3xl text-clarity-light gap-4 md:flex-1 md:justify-end">
             <button
@@ -189,7 +189,7 @@ export const Navbar = () => {
           <div className="mt-6 flex flex-col space-y-4 items-center">
             <NavLink text="HOME" hrf="/" className="mx-0!"></NavLink>
             <NavLink text="HARDWARE" hrf="/" className="mx-0!"></NavLink>
-            <NavLink text="LOGIN" hrf="/" className="mx-0!"></NavLink>
+            <NavLink text="LOGIN" hrf="/login" className="mx-0!"></NavLink>
           </div>
         </div>
       </div>
