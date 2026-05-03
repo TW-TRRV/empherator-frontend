@@ -17,7 +17,7 @@ export const Login = () => {
         </div>
 
         {/* Login Card */}
-        <div className="w-[380px] bg-obscure-lighter border border-obscure-lightest p-10 flex flex-col items-center">
+        <div className="w-95 bg-obscure-lighter border border-obscure-lightest p-10 flex flex-col items-center">
           <div className="w-full text-left mb-8">
             <h1 className="text-xl font-bold tracking-widest text-clarity-lighter mb-1">SYSTEM ACCESS</h1>
             <p className="text-[10px] text-clarity font-bold uppercase tracking-widest">NEW ERA OPERATIONAL INTERFACE</p>

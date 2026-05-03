@@ -126,7 +126,7 @@ export const Catalog = () => {
 
                   <div className="mt-auto flex gap-4">
                     <Link
-                      to="/"
+                      to={"/product/"+String(product.id)}
                       className="flex-1 bg-emph hover:bg-emph-light text-clarity-lighter text-xs font-bold tracking-widest h-12 flex items-center justify-center transition-colors"
                     >
                       BUY NOW

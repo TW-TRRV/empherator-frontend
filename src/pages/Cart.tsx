@@ -101,8 +101,8 @@ export const Cart = () => {
         <div className="flex flex-col lg:flex-row gap-12">
 
           {/* Products List Container - RTL for left scrollbar */}
-          <div className="flex-grow w-full lg:w-2/3" style={{ direction: "rtl" }}>
-            <div className="max-h-[500px] overflow-y-auto custom-scrollbar pl-4 pr-0">
+          <div className="grow w-full lg:w-2/3" style={{ direction: "rtl" }}>
+            <div className="max-h-125 overflow-y-auto custom-scrollbar pl-4 pr-0">
               <div className="flex flex-col gap-6" style={{ direction: "ltr" }}>
                 {cartItems.map((item) => (
                   <div key={item.id} className="bg-obscure-lighter border border-obscure-light p-6 flex flex-col md:flex-row gap-6 relative">
@@ -114,11 +114,11 @@ export const Cart = () => {
                     </button>
 
                     {/* Mock Image Placeholder */}
-                    <div className="w-32 h-32 bg-obscure-lightest flex-shrink-0 flex items-center justify-center">
+                    <div className="w-32 h-32 bg-obscure-lightest shrink-0 flex items-center justify-center">
                       <span className="text-clarity text-sm">Image</span>
                     </div>
 
-                    <div className="flex flex-col justify-between flex-grow">
+                    <div className="flex flex-col justify-between grow">
                       <div>
                         <h3 className="text-xl font-bold text-clarity-lighter mb-1">{item.name}</h3>
                         <p className="text-xs text-clarity-light mb-4">{item.specs}</p>
@@ -167,7 +167,7 @@ export const Cart = () => {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-clarity-light">SHIPPING</span>
-                  <span className="text-emph-light font-mono text-right max-w-[150px]">CALCULATED AT NEXT STEP</span>
+                  <span className="text-emph-light font-mono text-right max-w-37.5">CALCULATED AT NEXT STEP</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-clarity-light">ESTIMATED TAX</span>
