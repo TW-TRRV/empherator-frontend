@@ -1,0 +1,208 @@
+import { useState, useEffect } from "react";
+import Navbar from "@/Components/Navbar";
+import Footer from "@/Components/Footer";
+import { Link } from '@inertiajs/react';
+import { MdClose } from "react-icons/md";
+import { HiOutlineLockClosed } from "react-icons/hi";
+
+// Mock Product Interface
+interface CartItem {
+  id: string;
+  name: string;
+  specs: string;
+  price: number;
+  quantity: number;
+  imageUrl?: string;
+}
+
+// Initial Mock Data with 5 items to show scrollbar
+const initialMockData: CartItem[] = [
+  {
+    id: "1",
+    name: "K-900 SPECTRAL MECH",
+    specs: "Optical-Mechanical Switches | Per-key RGB | Carbon Fiber Plate",
+    price: 249.0,
+    quantity: 1,
+  },
+  {
+    id: "2",
+    name: "M-PRIME ULTRALIGHT",
+    specs: "26,000 DPI Sensor | 54g Total Weight | 8000Hz Polling",
+    price: 159.0,
+    quantity: 1,
+  },
+  {
+    id: "3",
+    name: "H-800 PRO HEADSET",
+    specs: "50mm Drivers | ANC | 40hr Battery",
+    price: 199.0,
+    quantity: 1,
+  },
+  {
+    id: "4",
+    name: "X-500 GAMING MAT",
+    specs: "Speed Surface | RGB Edging | 900x400mm",
+    price: 49.0,
+    quantity: 1,
+  },
+  {
+    id: "5",
+    name: "V-200 STREAM MIC",
+    specs: "Cardioid | USB-C | Shock Mount",
+    price: 129.0,
+    quantity: 1,
+  },
+];
+
+export const Cart = () => {
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+
+  useEffect(() => {
+    // Load from local storage or use mock data
+    const savedCart = localStorage.getItem("cart");
+    if (savedCart) {
+      setCartItems(JSON.parse(savedCart));
+    } else {
+      setCartItems(initialMockData);
+      localStorage.setItem("cart", JSON.stringify(initialMockData));
+    }
+  }, []);
+
+  const updateQuantity = (id: string, delta: number) => {
+    const updatedCart = cartItems.map((item) => {
+      if (item.id === id) {
+        const newQuantity = Math.max(1, item.quantity + delta);
+        return { ...item, quantity: newQuantity };
+      }
+      return item;
+    });
+    setCartItems(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+  };
+
+  const removeItem = (id: string) => {
+    const updatedCart = cartItems.filter((item) => item.id !== id);
+    setCartItems(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+  };
+
+  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const tax = subtotal * 0.08; // 8% tax mock
+  const total = subtotal + tax;
+
+  return (
+    <div className="bg-obscure-darker min-h-screen font-sans">
+      <Navbar />
+
+      <main className="max-w-7xl mx-auto px-4 md:px-8 lg:px-20 py-16">
+        <h1 className="text-4xl font-bold text-clarity-lighter mb-2">YOUR ARSENAL</h1>
+        <div className="w-16 h-1 bg-emph mb-12"></div>
+
+        <div className="flex flex-col lg:flex-row gap-12">
+
+          {/* Products List Container - RTL for left scrollbar */}
+          <div className="grow w-full lg:w-2/3" style={{ direction: "rtl" }}>
+            <div className="max-h-125 overflow-y-auto custom-scrollbar pl-4 pr-0">
+              <div className="flex flex-col gap-6" style={{ direction: "ltr" }}>
+                {cartItems.map((item) => (
+                  <div key={item.id} className="bg-obscure-lighter border border-obscure-light p-6 flex flex-col md:flex-row gap-6 relative">
+                    <button
+                      onClick={() => removeItem(item.id)}
+                      className="absolute top-4 right-4 text-clarity-light hover:text-clarity-lighter transition-colors"
+                    >
+                      <MdClose size={20} />
+                    </button>
+
+                    {/* Mock Image Placeholder */}
+                    <div className="w-32 h-32 bg-obscure-lightest shrink-0 flex items-center justify-center">
+                      <span className="text-clarity text-sm">Image</span>
+                    </div>
+
+                    <div className="flex flex-col justify-between grow">
+                      <div>
+                        <h3 className="text-xl font-bold text-clarity-lighter mb-1">{item.name}</h3>
+                        <p className="text-xs text-clarity-light mb-4">{item.specs}</p>
+                      </div>
+
+                      <div className="flex justify-between items-end mt-4">
+                        <div className="flex items-center border border-obscure-light bg-obscure rounded-sm">
+                          <button
+                            onClick={() => updateQuantity(item.id, -1)}
+                            className="px-3 py-1 text-clarity-light hover:text-clarity-lighter"
+                          >
+                            -
+                          </button>
+                          <span className="px-4 py-1 text-clarity-lighter text-sm font-bold">
+                            {item.quantity}
+                          </span>
+                          <button
+                            onClick={() => updateQuantity(item.id, 1)}
+                            className="px-3 py-1 text-clarity-light hover:text-clarity-lighter"
+                          >
+                            +
+                          </button>
+                        </div>
+
+                        <div className="text-right">
+                           <p className="text-xs text-clarity-light mb-1">PRICE</p>
+                           <p className="text-xl font-bold text-emph-light">${item.price.toFixed(2)}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Order Summary */}
+          <div className="w-full lg:w-1/3">
+            <div className="bg-obscure-lighter border border-obscure-light p-8">
+              <h2 className="text-xl font-bold text-clarity-lighter mb-8">ORDER<br/>SUMMARY</h2>
+
+              <div className="space-y-4 text-sm mb-8 border-b border-obscure-light pb-6">
+                <div className="flex justify-between">
+                  <span className="text-clarity-light">SUBTOTAL</span>
+                  <span className="text-clarity-lighter font-mono">${subtotal.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-clarity-light">SHIPPING</span>
+                  <span className="text-emph-light font-mono text-right max-w-37.5">CALCULATED AT NEXT STEP</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-clarity-light">ESTIMATED TAX</span>
+                  <span className="text-clarity-lighter font-mono">${tax.toFixed(2)}</span>
+                </div>
+              </div>
+
+              <div className="flex justify-between items-center mb-8">
+                <span className="text-clarity-light text-sm">TOTAL</span>
+                <span className="text-3xl font-bold text-clarity-lighter">${total.toFixed(2)}</span>
+              </div>
+
+              <button className="w-full bg-emph-light hover:bg-emph text-obscure-darker font-bold py-3 mb-4 transition-colors">
+                PROCEED TO CHECKOUT
+              </button>
+
+              <Link href="/">
+                <button className="w-full border border-obscure-light text-clarity-lighter hover:bg-obscure-light font-bold py-3 mb-6 transition-colors">
+                  CONTINUE SHOPPING
+                </button>
+              </Link>
+
+              <div className="flex items-center justify-center text-xs text-clarity-light gap-2">
+                <HiOutlineLockClosed />
+                <span>ENCRYPTED CHECKOUT PROCESSING</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default Cart;
