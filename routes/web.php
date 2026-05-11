@@ -28,5 +28,22 @@ Route::get('/catalog', function () {
     ]);
 });
 
-// Aquí puedes ir agregando las demás rutas, por ejemplo:
-// Route::get('/catalog', [TuControlador::class, 'index']);
+Route::get('/', function () {
+    return Inertia::render('Home');
+});
+
+Route::get('/cart', function () {
+    return Inertia::render('Cart');
+});
+
+Route::get('/login', function () {
+    return Inertia::render('Login');
+});
+
+Route::get('/register', function () {
+    return Inertia::render('Register');
+});
+
+Route::get('/product/{id}', function ($id) {
+    return Inertia::render('Product', ['id' => $id]);
+});
