@@ -47,3 +47,18 @@ Route::get('/register', function () {
 Route::get('/product/{id}', function ($id) {
     return Inertia::render('Product', ['id' => $id]);
 });
+
+Route::get('/weewoo', function () {
+    return response()->json([
+        '1. Salud General' => '200 OK - El routing funciona',
+        '2. Base Path' => base_path(),
+        '3. Existe app.blade.php?' => file_exists(resource_path('views/app.blade.php')) ? 'Sí' : 'NO (Error actual)',
+        '4. Existe el Manifest de Vite?' => file_exists(public_path('build/manifest.json')) ? 'Sí' : 'NO (Causará error 500 en Inertia)',
+        '5. Variables Vercel Inyectadas' => [
+            'APP_STORAGE' => env('APP_STORAGE'),
+            'APP_KEY_CONFIGURADA' => !empty(env('APP_KEY')),
+        ],
+        '6. Permisos de Escritura (/tmp)' => is_writable('/tmp/storage/framework/views') ? 'Sí' : 'No',
+        '7. Rutas de Vista' => config('view.paths')
+    ]);
+});
