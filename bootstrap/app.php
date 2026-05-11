@@ -17,9 +17,9 @@ $app = Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        // Forzar respuesta JSON para poder leer el error subyacente si vuelve a fallar
-        $exceptions->shouldRenderJsonWhen(function () {
-            return true; 
+        // Interceptar cualquier error fatal y escupirlo en texto crudo
+        $exceptions->render(function (Throwable $e) {
+            die("🔥 ERROR CRÍTICO: " . $e->getMessage() . " | Archivo: " . $e->getFile() . " | Línea: " . $e->getLine());
         });
     })->create();
 
