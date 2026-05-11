@@ -1,29 +1,18 @@
 {
-    "version": 2,
-    "builds": [
-        {
-            "src": "api/index.php",
-            "use": "vercel-php@0.6.0",
-    "config": {
-        "excludeFiles": "{.pnpm-store/**,node_modules/**}"
+  "version": 2,
+  "functions": {
+    "api/index.php": {
+      "runtime": "vercel-php@0.7.2"
     }
-        },
-        {
-            "src": "package.json",
-            "use": "@vercel/static-build",
-            "config": {
-                "distDir": "public"
-            }
-        }
-    ],
-    "routes": [
-        {
-            "src": "/build/(.*)",
-            "dest": "/public/build/$1"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "/api/index.php"
-        }
-    ]
+  },
+  "rewrites": [
+    {
+      "source": "/build/(.*)",
+      "destination": "/public/build/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/api/index.php"
+    }
+  ]
 }
