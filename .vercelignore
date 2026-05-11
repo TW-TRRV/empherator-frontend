@@ -1,5 +1,4 @@
-.pnpm-store
-node_modules
-.git
-vendor/phpunit
-tests
+.pnpm-store/
+**/.pnpm-store/**
+node_modules/
+.pnpm-debug.log

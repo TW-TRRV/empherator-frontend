@@ -3,7 +3,10 @@
     "builds": [
         {
             "src": "api/index.php",
-            "use": "vercel-php@0.7.2"
+            "use": "vercel-php@0.6.0",
+    "config": {
+        "excludeFiles": "{.pnpm-store/**,node_modules/**}"
+    }
         },
         {
             "src": "package.json",
