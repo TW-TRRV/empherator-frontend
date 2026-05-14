@@ -3,16 +3,18 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\AuthController;
 
 Route::get('/catalog', [ProductController::class, 'catalog']);
 
 Route::get('/', [PageController::class, 'home']);
 
-Route::get('/cart', [PageController::class, 'cart']);
+Route::get('/cart', [CartController::class, 'index']);
 
-Route::get('/login', [PageController::class, 'login']);
+Route::get('/login', [AuthController::class, 'login']);
 
-Route::get('/register', [PageController::class, 'register']);
+Route::get('/register', [AuthController::class, 'register']);
 
 Route::get('/product/{id}', [ProductController::class, 'show']);
 
