@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
@@ -18,6 +19,10 @@ Route::get('/register', [AuthController::class, 'register']);
 
 Route::get('/product/{id}', [ProductController::class, 'show']);
 
+
+Route::get('/admin/products', [AdminProductController::class, 'index']);
+Route::post('/admin/products', [AdminProductController::class, 'store']);
+Route::delete('/admin/products/{id}', [AdminProductController::class, 'destroy']);
 Route::get('/weewoo', function () {
     return response()->json([
         '1. Salud General' => '200 OK - El routing funciona',
