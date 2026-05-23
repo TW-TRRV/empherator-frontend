@@ -2,53 +2,10 @@ import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/Footer";
 import { Link } from '@inertiajs/react';
 import { MdFavoriteBorder } from "react-icons/md";
+import { ListProductsShort } from "@/types";
 
-const products = [
-  {
-    id: 1,
-    category: "COMPONENTS",
-    name: "NEXUS X-900 GPU",
-    price: "$1,299",
-    image: "https://placehold.co/600x400?text=Hello\\nWorld",
-  },
-  {
-    id: 2,
-    category: "PERIPHERALS",
-    name: "CYPHER CORE TKL",
-    price: "$189",
-    image: "https://placehold.co/600x400?text=Hello\\nWorld",
-  },
-  {
-    id: 3,
-    category: "PERIPHERALS",
-    name: "VELOCITY G-1",
-    price: "$125",
-    image: "https://placehold.co/600x400?text=Hello\\nWorld",
-  },
-  {
-    id: 4,
-    category: "COMPONENTS",
-    name: "ZENITH 16-CORE CPU",
-    price: "$549",
-    image: "https://placehold.co/600x400?text=Hello\\nWorld",
-  },
-  {
-    id: 5,
-    category: "PERIPHERALS",
-    name: "SONIC VOID PRO",
-    price: "$299",
-    image: "https://placehold.co/600x400?text=Hello\\nWorld",
-  },
-  {
-    id: 6,
-    category: "COMPONENTS",
-    name: "WARP 2TB NVME",
-    price: "$210",
-    image: "https://placehold.co/600x400?text=Hello\\nWorld",
-  },
-];
 
-export const Catalog = () => {
+export const Catalog = ({ products }: ListProductsShort) => {
   return (
     <div className="min-h-screen bg-obscure-darker font-sans text-clarity-lighter flex flex-col">
       <Navbar />
@@ -102,7 +59,7 @@ export const Catalog = () => {
                 {/* Product Image */}
                 <div className="aspect-4/3 w-full bg-obscure-darker overflow-hidden p-6 flex items-center justify-center">
                   <img
-                    src={product.image}
+                    src={JSON.parse(product.default_images).primary} 
                     alt={product.name}
                     className="object-cover max-h-full max-w-full drop-shadow-2xl"
                   />
@@ -120,7 +77,7 @@ export const Catalog = () => {
                       </h3>
                     </div>
                     <span className="text-2xl md:text-3xl font-bold">
-                      {product.price}
+                      {product.base_price}
                     </span>
                   </div>
 

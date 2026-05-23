@@ -2,39 +2,74 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class ProductController extends Controller
 {
-    public function catalog()
+    /**
+     * Display a listing of the resource.
+     */
+    public function catalog() : Response
     {
-        // 1. Defines tus datos directamente en memoria (Mock Data) en lugar de consultar la BD
-        $mockProducts = [
-            [
-                'id' => 'kbd-001',
-                'name' => 'Pro Mechanical Keyboard',
-                'price' => 149.99,
-                'switch_type' => 'Linear Silver',
-                'description' => 'Zero-latency mechanical switches encased in an aircraft-grade aluminum chassis.'
-            ],
-            [
-                'id' => 'mse-002',
-                'name' => 'Precision Mouse',
-                'price' => 89.99,
-                'switch_type' => 'Optical',
-                'description' => 'Ultra-lightweight frame with maximum polling rate accuracy.'
-            ]
-        ];
+    $products = Product::select()->get();
 
-        // 2. Se lo pasas a tu vista de React a través de Inertia
         return Inertia::render('Catalog', [
-            'products' => $mockProducts
+            'products' => $products
         ]);
     }
 
-    public function show($id)
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
     {
-        return Inertia::render('Product', ['id' => $id]);
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show($id): Response
+    {
+    $product = Product::findOrFail($id); 
+
+    return Inertia::render('Product', [
+        'product' => $product
+    ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Product $product)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Product $product)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Product $product)
+    {
+        //
     }
 }
