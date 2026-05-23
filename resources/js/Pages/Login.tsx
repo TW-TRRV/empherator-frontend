@@ -3,7 +3,14 @@ import Navbar from "@/Components/Navbar";
 import { FaGoogle, FaMicrosoft, FaFacebookF } from "react-icons/fa";
 import { Link } from '@inertiajs/react';
 
+import { router } from '@inertiajs/react';
+
 export const Login = () => {
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    router.visit('/admin/products');
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-obscure-darker font-sans text-clarity-lighter">
       <Navbar />
@@ -23,7 +30,7 @@ export const Login = () => {
             <p className="text-[10px] text-clarity font-bold uppercase tracking-widest">NEW ERA OPERATIONAL INTERFACE</p>
           </div>
 
-          <form className="w-full" onSubmit={(e) => e.preventDefault()}>
+          <form className="w-full" onSubmit={handleLogin}>
             <div className="mb-5">
               <label className="block text-[10px] font-bold text-clarity mb-2 uppercase tracking-widest">OPERATOR ID</label>
               <input
