@@ -34,4 +34,5 @@ export interface ProductProp {
 
 export interface ListProductsShort {
     products: ProductShort[];
+    currentCategory?: string | null;
 }

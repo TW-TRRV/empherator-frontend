@@ -12,12 +12,19 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function catalog() : Response
+    public function catalog(Request $request) : Response
     {
-    $products = Product::select()->get();
+        $query = Product::select();
+
+        if ($request->has('category') && !empty($request->category)) {
+            $query->where('category', $request->category);
+        }
+
+        $products = $query->get();
 
         return Inertia::render('Catalog', [
-            'products' => $products
+            'products' => $products,
+            'currentCategory' => $request->category,
         ]);
     }
 

@@ -5,7 +5,15 @@ import { MdFavoriteBorder } from "react-icons/md";
 import { ListProductsShort } from "@/types";
 
 
-export const Catalog = ({ products }: ListProductsShort) => {
+export const Catalog = ({ products, currentCategory }: ListProductsShort) => {
+  const getFilterClass = (category: string | null) => {
+    const isActive = category === currentCategory || (category === null && !currentCategory);
+    if (isActive) {
+      return "px-6 py-2 bg-clarity-lighter text-obscure-darker text-xs font-bold tracking-widest cursor-pointer flex items-center justify-center";
+    }
+    return "px-6 py-2 border border-obscure-lightest text-clarity-lighter text-xs font-bold tracking-widest hover:border-clarity-dark transition-colors cursor-pointer flex items-center justify-center";
+  };
+
   return (
     <div className="min-h-screen bg-obscure-darker font-sans text-clarity-lighter flex flex-col">
       <Navbar />
@@ -26,17 +34,17 @@ export const Catalog = ({ products }: ListProductsShort) => {
           {/* Filters & Search Section */}
           <section className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
             <div className="flex flex-wrap gap-2 md:gap-4">
-              <Link href="/" className="px-6 py-2 bg-clarity-lighter text-obscure-darker text-xs font-bold tracking-widest cursor-pointer flex items-center justify-center">
+              <Link href="/catalog" className={getFilterClass(null)}>
                 ALL
               </Link>
-              <Link href="/" className="px-6 py-2 border border-obscure-lightest text-clarity-lighter text-xs font-bold tracking-widest hover:border-clarity-dark transition-colors cursor-pointer flex items-center justify-center">
+              <Link href="/catalog?category=KEYBOARDS" className={getFilterClass('KEYBOARDS')}>
                 KEYBOARDS
               </Link>
-              <Link href="/" className="px-6 py-2 border border-obscure-lightest text-clarity-lighter text-xs font-bold tracking-widest hover:border-clarity-dark transition-colors cursor-pointer flex items-center justify-center">
-                MICE
+              <Link href="/catalog?category=MOUSE" className={getFilterClass('MOUSE')}>
+                MOUSE
               </Link>
-              <Link href="/" className="px-6 py-2 border border-obscure-lightest text-clarity-lighter text-xs font-bold tracking-widest hover:border-clarity-dark transition-colors cursor-pointer flex items-center justify-center">
-                GPUS
+              <Link href="/catalog?category=AUDIO" className={getFilterClass('AUDIO')}>
+                AUDIO
               </Link>
             </div>
 
