@@ -40,13 +40,27 @@ const Hero = () => {
   );
 };
 
-export const Home = () => {
+interface Product {
+  id: number;
+  name: string;
+  category: string;
+  subcategory: string;
+  base_price: number;
+  default_images: string;
+  is_featured: boolean;
+}
+
+interface HomeProps {
+  featuredProducts: Product[];
+}
+
+export const Home = ({ featuredProducts }: HomeProps) => {
   return (
     <div>
       <Navbar />
       <Hero />
       <Categories />
-      <FeaturedProducts />
+      <FeaturedProducts products={featuredProducts} />
       <Newsletter />
       <Footer />
     </div>

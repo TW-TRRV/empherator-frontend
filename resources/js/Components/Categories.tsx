@@ -27,7 +27,7 @@ export const Categories = () => {
           {categories.map((category) => (
             <Link
               key={category.id}
-              href="/catalog"
+              href={`/catalog?category=${category.name}`}
               className="relative aspect-[4/5] bg-obscure-lightest overflow-hidden group flex items-end p-6 border border-obscure-lightest hover:border-obscure-light transition-colors"
             >
               <div className="absolute inset-0 w-full h-full p-4 flex items-center justify-center">
