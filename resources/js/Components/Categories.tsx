@@ -1,10 +1,9 @@
 import { Link } from '@inertiajs/react';
 
 const categories = [
-  { id: 1, name: "MOUSE", image: "https://placehold.co/600x400?text=Placeholder" },
-  { id: 2, name: "KEYBOARDS", image: "https://placehold.co/600x400?text=Placeholder" },
-  { id: 3, name: "AUDIO", image: "https://placehold.co/600x400?text=Placeholder" },
-  { id: 4, name: "COMPONENTS", image: "https://placehold.co/600x400?text=Placeholder" },
+  { id: 1, name: "MOUSE", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTA1Fz6A54OcoqYIa5KfRls6Hvu4Kux5vpqlA&s" },
+  { id: 2, name: "KEYBOARDS", image: "https://images.prismic.io/frameworkmarketplace/aeepQ8BOoF08xL4K_Framework-wireless-keyboard%3Dfront-pdp-1-.png?auto=format,compress" },
+  { id: 3, name: "AUDIO", image: "https://images.squarespace-cdn.com/content/v1/5a6a2d73bff200e7e9dde1f9/27f777e1-244d-409b-98c2-1f6ea77119a1/Kali-Audio-LonePine-V2-SecondWave-Studio-Monitors-Family.jpeg" },
 ];
 
 export const Categories = () => {
@@ -23,7 +22,7 @@ export const Categories = () => {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {categories.map((category) => (
             <Link
               key={category.id}
