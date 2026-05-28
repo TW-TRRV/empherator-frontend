@@ -3,7 +3,7 @@ import { Link } from '@inertiajs/react';
 
 export const Footer = () => {
   return (
-    <footer className="w-full bg-obscure-darker px-8 md:px-20 lg:px-40 xl:px-82.5 border-t border-obscure-lightest">
+    <footer className="w-full bg-obscure-darker px-4 md:px-20 lg:px-40 xl:px-82.5 border-t border-obscure-lightest">
       <div className="w-full flex flex-col lg:flex-row py-16 lg:pt-31.25 lg:pb-16 gap-12 lg:gap-0">
         <div className="flex-2 flex flex-col">
           <p className="text-2xl text-clarity-lighter font-bold">EMPHERATOR</p>
