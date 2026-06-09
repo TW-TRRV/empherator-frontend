@@ -15,67 +15,36 @@ interface CartItem {
   imageUrl?: string;
 }
 
-// Initial Mock Data with 5 items to show scrollbar
-const initialMockData: CartItem[] = [
-  {
-    id: "1",
-    name: "K-900 SPECTRAL MECH",
-    specs: "Optical-Mechanical Switches | Per-key RGB | Carbon Fiber Plate",
-    price: 249.0,
-    quantity: 1,
-  },
-  {
-    id: "2",
-    name: "M-PRIME ULTRALIGHT",
-    specs: "26,000 DPI Sensor | 54g Total Weight | 8000Hz Polling",
-    price: 159.0,
-    quantity: 1,
-  },
-  {
-    id: "3",
-    name: "H-800 PRO HEADSET",
-    specs: "50mm Drivers | ANC | 40hr Battery",
-    price: 199.0,
-    quantity: 1,
-  },
-  {
-    id: "4",
-    name: "X-500 GAMING MAT",
-    specs: "Speed Surface | RGB Edging | 900x400mm",
-    price: 49.0,
-    quantity: 1,
-  },
-  {
-    id: "5",
-    name: "V-200 STREAM MIC",
-    specs: "Cardioid | USB-C | Shock Mount",
-    price: 129.0,
-    quantity: 1,
-  },
-];
-
-export const Cart = () => {
+export const Cart = ({ productPrices }: { productPrices?: Record<string, number> }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   useEffect(() => {
-    // Load from local storage or use mock data
+    // Load from local storage
     const savedCart = localStorage.getItem("cart");
     if (savedCart) {
-      setCartItems(JSON.parse(savedCart));
-    } else {
-      setCartItems(initialMockData);
-      localStorage.setItem("cart", JSON.stringify(initialMockData));
+      const parsedCart: CartItem[] = JSON.parse(savedCart);
+
+      // Update prices from the server if available
+      const updatedCart = parsedCart.map(item => {
+        if (productPrices && productPrices[item.id] !== undefined) {
+          return { ...item, price: productPrices[item.id] };
+        }
+        return item;
+      });
+
+      setCartItems(updatedCart);
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
     }
-  }, []);
+  }, [productPrices]);
 
   const updateQuantity = (id: string, delta: number) => {
     const updatedCart = cartItems.map((item) => {
       if (item.id === id) {
-        const newQuantity = Math.max(1, item.quantity + delta);
-        return { ...item, quantity: newQuantity };
+        return { ...item, quantity: item.quantity + delta };
       }
       return item;
-    });
+    }).filter(item => item.quantity > 0);
+
     setCartItems(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
@@ -180,9 +149,11 @@ export const Cart = () => {
                 <span className="text-3xl font-bold text-clarity-lighter">${total.toFixed(2)}</span>
               </div>
 
-              <button className="w-full bg-emph-light hover:bg-emph text-obscure-darker font-bold py-3 mb-4 transition-colors">
-                PROCEED TO CHECKOUT
-              </button>
+              <Link href="/checkout-success">
+                <button className="w-full bg-emph-light hover:bg-emph text-obscure-darker font-bold py-3 mb-4 transition-colors">
+                  PROCEED TO CHECKOUT
+                </button>
+              </Link>
 
               <Link href="/">
                 <button className="w-full border border-obscure-light text-clarity-lighter hover:bg-obscure-light font-bold py-3 mb-6 transition-colors">

@@ -13,6 +13,8 @@ Route::get('/', [PageController::class, 'home']);
 
 Route::get('/cart', [CartController::class, 'index']);
 
+Route::get('/checkout-success', [CartController::class, 'checkoutSuccess']);
+
 Route::get('/login', [AuthController::class, 'login']);
 
 Route::get('/register', [AuthController::class, 'register']);
