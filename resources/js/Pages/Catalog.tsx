@@ -65,7 +65,7 @@ export const Catalog = ({ products, currentCategory }: ListProductsShort) => {
                 className="bg-obscure-lightest flex flex-col h-full border border-obscure-lightest hover:border-obscure-light transition-colors"
               >
                 {/* Product Image */}
-                <div className="aspect-4/3 w-full bg-obscure-darker overflow-hidden p-6 flex items-center justify-center">
+                <div className="aspect-[4/3] w-full bg-obscure-darker overflow-hidden p-6 flex items-center justify-center">
                   <img
                     src={JSON.parse(product.default_images).primary} 
                     alt={product.name}
@@ -80,7 +80,7 @@ export const Catalog = ({ products, currentCategory }: ListProductsShort) => {
                       <p className="text-clarity-light text-[10px] font-bold tracking-widest mb-2">
                         {product.category}
                       </p>
-                      <h3 className="text-xl md:text-2xl font-bold leading-tight max-w-50">
+                      <h3 className="text-xl md:text-2xl font-bold leading-tight max-w-full md:max-w-50">
                         {product.name}
                       </h3>
                     </div>
