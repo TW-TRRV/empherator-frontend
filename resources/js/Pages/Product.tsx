@@ -7,6 +7,29 @@ export const ERROR = "Product Not Found";
 const ProductView = (prod: ProductProp) => {
     const placeholderImageUrl = "https://placehold.co/600x400?text=Error :o";
     console.log("Received product prop:", prod);
+
+    const addToCart = () => {
+        const savedCart = localStorage.getItem("cart");
+        let cartItems = savedCart ? JSON.parse(savedCart) : [];
+
+        const existingItemIndex = cartItems.findIndex((item: any) => item.id === String(prod.product.id));
+
+        if (existingItemIndex > -1) {
+            cartItems[existingItemIndex].quantity += 1;
+        } else {
+            cartItems.push({
+                id: String(prod.product.id),
+                name: prod.product.name,
+                specs: `${prod.product.spec_title_1}: ${prod.product.spec_value_1} | ${prod.product.spec_title_2}: ${prod.product.spec_value_2}`,
+                price: prod.product.base_price,
+                quantity: 1,
+            });
+        }
+
+        localStorage.setItem("cart", JSON.stringify(cartItems));
+        alert("Added to cart!");
+    };
+
     return (
         <div className="bg-obscure-darker min-h-screen text-clarity-lighter font-sans">
             <Navbar />
@@ -70,7 +93,7 @@ const ProductView = (prod: ProductProp) => {
                                 </div>
 
 
-                                <button className="w-full bg-emph hover:bg-emph-light text-clarity-lighter font-black py-4 px-8 text-sm uppercase tracking-widest transition-colors duration-300">
+                                <button onClick={addToCart} className="w-full bg-emph hover:bg-emph-light text-clarity-lighter font-black py-4 px-8 text-sm uppercase tracking-widest transition-colors duration-300">
                                     ADD TO CART
                                 </button>
 
