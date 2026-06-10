@@ -24,6 +24,7 @@ Route::get('/product/{id}', [ProductController::class, 'show']);
 
 Route::get('/admin/products', [AdminProductController::class, 'index']);
 Route::post('/admin/products', [AdminProductController::class, 'store']);
+Route::put('/admin/products/{id}', [AdminProductController::class, 'update']);
 Route::delete('/admin/products/{id}', [AdminProductController::class, 'destroy']);
 Route::get('/weewoo', function () {
     return response()->json([
