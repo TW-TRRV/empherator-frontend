@@ -18,6 +18,7 @@ export interface Product {
     default_images: string; // If this is a JSON string of image URLs, you'll need to JSON.parse() it
     is_featured: boolean | null;               // Assumes Laravel Model has boolean cast
     created_at: string | null;                 // CHANGED: Arrives as an ISO string over the wire
+    product_variants?: any[];
 }
 
 export interface ProductShort {

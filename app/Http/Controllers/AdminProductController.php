@@ -50,14 +50,22 @@ class AdminProductController extends Controller
             'gallery_images' => 'required|array|max:4',
             'gallery_images.*' => 'required|string',
             'is_featured' => 'required|boolean',
+            'variants' => 'nullable|array',
+            'variants.*.sku' => 'required|string|max:100',
+            'variants.*.variant_name' => 'required|string|max:100',
+            'variants.*.price_override' => 'nullable|numeric',
+            'variants.*.stock_quantity' => 'required|integer',
+            'variants.*.primary_image' => 'required|string',
+            'variants.*.gallery_images' => 'nullable|array|max:4',
+            'variants.*.gallery_images.*' => 'nullable|string',
         ]);
 
         $defaultImages = [
             'primary' => $validated['primary_image'],
-            'gallery' => $validated['gallery_images']
+            'gallery' => $validated['gallery_images'] ?? []
         ];
 
-        Product::create([
+        $product = Product::create([
             'category' => $validated['category'],
             'subcategory' => $validated['subcategory'],
             'name' => $validated['name'],
@@ -76,6 +84,23 @@ class AdminProductController extends Controller
             'default_images' => json_encode($defaultImages),
             'is_featured' => $validated['is_featured']
         ]);
+
+        if (!empty($validated['variants'])) {
+            foreach ($validated['variants'] as $variantData) {
+                $variantImages = [
+                    'primary' => $variantData['primary_image'],
+                    'gallery' => $variantData['gallery_images'] ?? []
+                ];
+
+                $product->product_variants()->create([
+                    'sku' => $variantData['sku'],
+                    'variant_name' => $variantData['variant_name'],
+                    'price_override' => $variantData['price_override'] ?? null,
+                    'stock_quantity' => $variantData['stock_quantity'],
+                    'images' => json_encode($variantImages)
+                ]);
+            }
+        }
 
         return redirect('/admin/products')->with('success', 'Product created successfully.');
     }

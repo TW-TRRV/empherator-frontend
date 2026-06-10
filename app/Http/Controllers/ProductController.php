@@ -49,7 +49,7 @@ class ProductController extends Controller
      */
     public function show($id): Response
     {
-    $product = Product::findOrFail($id); 
+    $product = Product::with('product_variants')->findOrFail($id);
 
     return Inertia::render('Product', [
         'product' => $product

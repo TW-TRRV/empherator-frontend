@@ -1,6 +1,7 @@
 import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/Footer";
 import { ProductProp } from "@/types";
+import { useState } from 'react';
 
 export const ERROR = "Product Not Found";
 
@@ -8,20 +9,43 @@ const ProductView = (prod: ProductProp) => {
     const placeholderImageUrl = "https://placehold.co/600x400?text=Error :o";
     console.log("Received product prop:", prod);
 
+    const [selectedVariantId, setSelectedVariantId] = useState<number | null>(
+        prod.product?.product_variants && prod.product.product_variants.length > 0
+            ? prod.product.product_variants[0].id
+            : null
+    );
+
+    const selectedVariant = prod.product?.product_variants?.find(v => v.id === selectedVariantId);
+
+    const displayPrice = selectedVariant && selectedVariant.price_override !== null
+        ? selectedVariant.price_override
+        : prod.product?.base_price;
+
+    const displayImages = selectedVariant
+        ? JSON.parse(selectedVariant.images)
+        : (prod.product ? JSON.parse(prod.product.default_images) : { primary: '', gallery: [] });
+
     const addToCart = () => {
         const savedCart = localStorage.getItem("cart");
         let cartItems = savedCart ? JSON.parse(savedCart) : [];
 
-        const existingItemIndex = cartItems.findIndex((item: any) => item.id === String(prod.product.id));
+        const cartItemId = selectedVariant
+            ? `prod_${prod.product.id}_var_${selectedVariant.id}`
+            : String(prod.product.id);
+
+        const existingItemIndex = cartItems.findIndex((item: any) => item.id === cartItemId);
 
         if (existingItemIndex > -1) {
             cartItems[existingItemIndex].quantity += 1;
         } else {
             cartItems.push({
-                id: String(prod.product.id),
+                id: cartItemId,
+                productId: String(prod.product.id),
+                variantId: selectedVariant ? String(selectedVariant.id) : null,
                 name: prod.product.name,
+                variantName: selectedVariant ? selectedVariant.variant_name : null,
                 specs: `${prod.product.spec_title_1}: ${prod.product.spec_value_1} | ${prod.product.spec_title_2}: ${prod.product.spec_value_2}`,
-                price: prod.product.base_price,
+                price: displayPrice,
                 quantity: 1,
             });
         }
@@ -49,13 +73,13 @@ const ProductView = (prod: ProductProp) => {
                             <div className="flex flex-col gap-4">
                                 <div className="w-full aspect-16/10 bg-obscure-lightest rounded-lg overflow-hidden">
                                     <img
-                                        src={JSON.parse(prod.product.default_images).primary || placeholderImageUrl}
+                                        src={displayImages.primary || placeholderImageUrl}
                                         alt="Main Product Placeholder"
                                         className="w-full h-full object-cover"
                                     />
                                 </div>
                                 <div className="grid grid-cols-4 gap-4">
-                                    {JSON.parse(prod.product.default_images).gallery?.map((img: string, i: number) => (
+                                    {displayImages.gallery?.map((img: string, i: number) => (
                                         <div
                                             key={i}
                                             className="aspect-square bg-obscure-lightest rounded-md overflow-hidden cursor-pointer hover:opacity-80 transition-opacity"
@@ -83,12 +107,35 @@ const ProductView = (prod: ProductProp) => {
                                 
                                 </p>
 
+                                {prod.product.product_variants && prod.product.product_variants.length > 0 && (
+                                    <div className="mb-8">
+                                        <div className="text-sm text-clarity font-bold uppercase tracking-widest mb-3">
+                                            SELECT VARIANT
+                                        </div>
+                                        <div className="flex flex-wrap gap-3">
+                                            {prod.product.product_variants.map(variant => (
+                                                <button
+                                                    key={variant.id}
+                                                    onClick={() => setSelectedVariantId(variant.id)}
+                                                    className={`px-4 py-2 text-sm font-bold uppercase tracking-wider border transition-colors ${
+                                                        selectedVariantId === variant.id
+                                                            ? 'border-emph text-emph bg-emph/10'
+                                                            : 'border-obscure-light text-clarity hover:border-clarity hover:text-clarity-lighter'
+                                                    }`}
+                                                >
+                                                    {variant.variant_name}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
                                 <div className="flex items-end justify-between border-b border-obscure-light pb-6 mb-8">
                                     <span className="text-sm text-clarity font-bold uppercase tracking-widest">
                                         PRICE
                                     </span>
                                     <span className="text-4xl font-black text-clarity-lighter">
-                                        ${prod.product.base_price.toFixed(2)}
+                                        ${displayPrice.toFixed(2)}
                                     </span>
                                 </div>
 

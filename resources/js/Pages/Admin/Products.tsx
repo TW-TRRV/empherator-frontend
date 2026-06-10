@@ -39,6 +39,7 @@ export default function AdminProducts({ products, filters }: Props) {
         primary_image: '',
         gallery_images: ['', '', '', ''],
         is_featured: false,
+        variants: [] as any[],
     });
 
     const handleSearch = (e: FormEvent) => {
@@ -50,6 +51,35 @@ export default function AdminProducts({ products, filters }: Props) {
         const newGallery = [...data.gallery_images];
         newGallery[index] = value;
         setData('gallery_images', newGallery);
+    };
+
+    const addVariant = () => {
+        setData('variants', [...data.variants, {
+            sku: '',
+            variant_name: '',
+            price_override: '',
+            stock_quantity: 0,
+            primary_image: '',
+            gallery_images: ['', '', '', ''],
+        }]);
+    };
+
+    const removeVariant = (index: number) => {
+        const newVariants = [...data.variants];
+        newVariants.splice(index, 1);
+        setData('variants', newVariants);
+    };
+
+    const handleVariantChange = (index: number, field: string, value: any) => {
+        const newVariants = [...data.variants];
+        newVariants[index][field] = value;
+        setData('variants', newVariants);
+    };
+
+    const handleVariantGalleryChange = (vIndex: number, gIndex: number, value: string) => {
+        const newVariants = [...data.variants];
+        newVariants[vIndex].gallery_images[gIndex] = value;
+        setData('variants', newVariants);
     };
 
     const handleSubmit = (e: FormEvent) => {
@@ -234,6 +264,50 @@ export default function AdminProducts({ products, filters }: Props) {
                                     <input type="checkbox" checked={data.is_featured} onChange={e => setData('is_featured', e.target.checked)} className="bg-obscure-darker border-obscure-lightest" />
                                     <span>Featured</span>
                                 </label>
+                            </div>
+
+                                                        <div className="border border-obscure-lightest p-4 space-y-4">
+                                <div className="flex justify-between items-center mb-2">
+                                    <div className="text-[10px] font-bold text-clarity uppercase tracking-widest">Product Variants (Optional)</div>
+                                    <button type="button" onClick={addVariant} className="bg-obscure-light hover:bg-obscure text-clarity-lighter text-xs px-3 py-1 rounded">Add Variant</button>
+                                </div>
+                                {data.variants.map((variant, vIndex) => (
+                                    <div key={vIndex} className="border border-obscure-light p-4 relative mb-4">
+                                        <button type="button" onClick={() => removeVariant(vIndex)} className="absolute top-2 right-2 text-red-500 hover:text-red-700">
+                                            <FaTrash size={12} />
+                                        </button>
+                                        <div className="grid grid-cols-2 gap-4 mb-4">
+                                            <div>
+                                                <label className="block text-[10px] text-clarity mb-1">Variant Name</label>
+                                                <input type="text" required value={variant.variant_name} onChange={e => handleVariantChange(vIndex, 'variant_name', e.target.value)} className="w-full h-8 bg-obscure-darker border border-obscure-lightest px-2 text-sm text-clarity-lighter focus:outline-none focus:border-emph-light" />
+                                            </div>
+                                            <div>
+                                                <label className="block text-[10px] text-clarity mb-1">SKU</label>
+                                                <input type="text" required value={variant.sku} onChange={e => handleVariantChange(vIndex, 'sku', e.target.value)} className="w-full h-8 bg-obscure-darker border border-obscure-lightest px-2 text-sm text-clarity-lighter focus:outline-none focus:border-emph-light" />
+                                            </div>
+                                            <div>
+                                                <label className="block text-[10px] text-clarity mb-1">Price Override (Optional)</label>
+                                                <input type="number" step="0.01" value={variant.price_override} onChange={e => handleVariantChange(vIndex, 'price_override', e.target.value)} className="w-full h-8 bg-obscure-darker border border-obscure-lightest px-2 text-sm text-clarity-lighter focus:outline-none focus:border-emph-light" />
+                                            </div>
+                                            <div>
+                                                <label className="block text-[10px] text-clarity mb-1">Stock Quantity</label>
+                                                <input type="number" required value={variant.stock_quantity} onChange={e => handleVariantChange(vIndex, 'stock_quantity', e.target.value)} className="w-full h-8 bg-obscure-darker border border-obscure-lightest px-2 text-sm text-clarity-lighter focus:outline-none focus:border-emph-light" />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label className="block text-[10px] text-clarity mb-1">Primary Image</label>
+                                            <input type="text" required value={variant.primary_image} onChange={e => handleVariantChange(vIndex, 'primary_image', e.target.value)} className="w-full h-8 mb-2 bg-obscure-darker border border-obscure-lightest px-2 text-sm text-clarity-lighter focus:outline-none focus:border-emph-light" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-[10px] text-clarity mb-1">Gallery Images</label>
+                                            <div className="grid grid-cols-2 gap-2">
+                                                {variant.gallery_images.map((url: string, gIndex: number) => (
+                                                    <input key={gIndex} type="text" placeholder={"Gallery " + (gIndex + 1)} value={url} onChange={e => handleVariantGalleryChange(vIndex, gIndex, e.target.value)} className="w-full h-8 bg-obscure-darker border border-obscure-lightest px-2 text-sm text-clarity-lighter focus:outline-none focus:border-emph-light" />
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
 
                             <button
