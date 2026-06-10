@@ -2,14 +2,37 @@ import React, { useState, FormEvent } from 'react';
 import { Head, useForm, router } from '@inertiajs/react';
 import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/Footer";
-import { FaTrash, FaSearch } from 'react-icons/fa';
+import { FaTrash, FaSearch, FaEdit } from 'react-icons/fa';
+
+interface ProductVariant {
+    id: number;
+    sku: string;
+    variant_name: string;
+    price_override?: number;
+    stock_quantity: number;
+    images: string; // JSON string
+}
 
 interface Product {
     id: number;
     name: string;
     category: string;
     subcategory: string;
+    description: string;
     base_price: number;
+    isglobalshippingavailable: boolean;
+    warrantytime: string;
+    spec_title_1: string;
+    spec_value_1: string;
+    spec_title_2: string;
+    spec_value_2: string;
+    spec_title_3: string;
+    spec_value_3: string;
+    benchmark_label: string;
+    benchmark_score: number;
+    default_images: string; // JSON string
+    is_featured: boolean;
+    product_variants: ProductVariant[];
 }
 
 interface Props {
@@ -19,8 +42,9 @@ interface Props {
 
 export default function AdminProducts({ products, filters }: Props) {
     const [searchTerm, setSearchTerm] = useState(filters.search || '');
+    const [editingId, setEditingId] = useState<number | null>(null);
 
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, post, put, processing, errors, reset } = useForm({
         category: '',
         subcategory: '',
         name: '',
@@ -82,11 +106,100 @@ export default function AdminProducts({ products, filters }: Props) {
         setData('variants', newVariants);
     };
 
+    const handleEdit = (product: Product) => {
+        setEditingId(product.id);
+
+        let primaryImage = '';
+        let galleryImages = ['', '', '', ''];
+
+        try {
+            const parsedImages = JSON.parse(product.default_images);
+            primaryImage = parsedImages.primary || '';
+            const g = parsedImages.gallery || [];
+            galleryImages = [
+                g[0] || '',
+                g[1] || '',
+                g[2] || '',
+                g[3] || '',
+            ];
+        } catch (e) {
+            console.error("Error parsing product images", e);
+        }
+
+        const variants = product.product_variants.map(v => {
+            let vPrimaryImage = '';
+            let vGalleryImages = ['', '', '', ''];
+            try {
+                const parsedVImages = JSON.parse(v.images);
+                vPrimaryImage = parsedVImages.primary || '';
+                const vg = parsedVImages.gallery || [];
+                vGalleryImages = [
+                    vg[0] || '',
+                    vg[1] || '',
+                    vg[2] || '',
+                    vg[3] || '',
+                ];
+            } catch(e) {
+                console.error("Error parsing variant images", e);
+            }
+
+            return {
+                id: v.id,
+                sku: v.sku,
+                variant_name: v.variant_name,
+                price_override: v.price_override || '',
+                stock_quantity: v.stock_quantity,
+                primary_image: vPrimaryImage,
+                gallery_images: vGalleryImages
+            };
+        });
+
+        setData({
+            category: product.category,
+            subcategory: product.subcategory,
+            name: product.name,
+            description: product.description,
+            base_price: product.base_price.toString(),
+            isglobalshippingavailable: product.isglobalshippingavailable,
+            warrantytime: product.warrantytime,
+            spec_title_1: product.spec_title_1,
+            spec_value_1: product.spec_value_1,
+            spec_title_2: product.spec_title_2,
+            spec_value_2: product.spec_value_2,
+            spec_title_3: product.spec_title_3,
+            spec_value_3: product.spec_value_3,
+            benchmark_label: product.benchmark_label,
+            benchmark_score: product.benchmark_score.toString(),
+            primary_image: primaryImage,
+            gallery_images: galleryImages,
+            is_featured: product.is_featured,
+            variants: variants
+        });
+
+        // Scroll to form
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const cancelEdit = () => {
+        setEditingId(null);
+        reset();
+    };
+
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        post('/admin/products', {
-            onSuccess: () => reset(),
-        });
+
+        if (editingId) {
+            put(`/admin/products/${editingId}`, {
+                onSuccess: () => {
+                    setEditingId(null);
+                    reset();
+                },
+            });
+        } else {
+            post('/admin/products', {
+                onSuccess: () => reset(),
+            });
+        }
     };
 
     const handleDelete = (id: number) => {
@@ -134,31 +247,43 @@ export default function AdminProducts({ products, filters }: Props) {
                                         <th className="px-4 py-3">Name</th>
                                         <th className="px-4 py-3">Category</th>
                                         <th className="px-4 py-3">Price</th>
+                                        <th className="px-4 py-3">Stock</th>
                                         <th className="px-4 py-3 text-right">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {products.length > 0 ? (
-                                        products.map((product) => (
-                                            <tr key={product.id} className="border-b border-obscure-lightest hover:bg-obscure-lighter transition-colors">
-                                                <td className="px-4 py-3">{product.id}</td>
-                                                <td className="px-4 py-3 font-medium text-clarity-lighter">{product.name}</td>
-                                                <td className="px-4 py-3 text-clarity">{product.category} / {product.subcategory}</td>
-                                                <td className="px-4 py-3">${product.base_price}</td>
-                                                <td className="px-4 py-3 text-right">
-                                                    <button
-                                                        onClick={() => handleDelete(product.id)}
-                                                        className="text-red-500 hover:text-red-400 transition-colors"
-                                                        title="Delete Product"
-                                                    >
-                                                        <FaTrash />
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ))
+                                        products.map((product) => {
+                                            const totalStock = product.product_variants?.reduce((sum, variant) => sum + variant.stock_quantity, 0) || 0;
+                                            return (
+                                                <tr key={product.id} className="border-b border-obscure-lightest hover:bg-obscure-lighter transition-colors">
+                                                    <td className="px-4 py-3">{product.id}</td>
+                                                    <td className="px-4 py-3 font-medium text-clarity-lighter">{product.name}</td>
+                                                    <td className="px-4 py-3 text-clarity">{product.category} / {product.subcategory}</td>
+                                                    <td className="px-4 py-3">${product.base_price}</td>
+                                                    <td className="px-4 py-3 text-clarity">{totalStock}</td>
+                                                    <td className="px-4 py-3 text-right">
+                                                        <button
+                                                            onClick={() => handleEdit(product)}
+                                                            className="text-emph-lighter hover:text-emph transition-colors mr-3"
+                                                            title="Edit Product"
+                                                        >
+                                                            <FaEdit />
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handleDelete(product.id)}
+                                                            className="text-red-500 hover:text-red-400 transition-colors"
+                                                            title="Delete Product"
+                                                        >
+                                                            <FaTrash />
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })
                                     ) : (
                                         <tr>
-                                            <td colSpan={5} className="px-4 py-8 text-center text-clarity">
+                                            <td colSpan={6} className="px-4 py-8 text-center text-clarity">
                                                 No products found.
                                             </td>
                                         </tr>
@@ -170,7 +295,16 @@ export default function AdminProducts({ products, filters }: Props) {
 
                     {/* Right Column: Add Product Form */}
                     <div className="w-full lg:w-1/2 bg-obscure p-6 border border-obscure-lightest">
-                        <h2 className="text-xl font-bold mb-4 text-clarity uppercase tracking-widest">Add New Product</h2>
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-xl font-bold text-clarity uppercase tracking-widest">
+                                {editingId ? 'Edit Product' : 'Add New Product'}
+                            </h2>
+                            {editingId && (
+                                <button type="button" onClick={cancelEdit} className="text-xs text-clarity-lighter hover:text-red-400">
+                                    CANCEL EDIT
+                                </button>
+                            )}
+                        </div>
 
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div className="grid grid-cols-2 gap-4">
@@ -315,7 +449,7 @@ export default function AdminProducts({ products, filters }: Props) {
                                 disabled={processing}
                                 className="w-full h-12 bg-emph-lighter hover:bg-emph-light text-obscure-darker font-bold tracking-wider transition-colors disabled:opacity-50 mt-4"
                             >
-                                CREATE PRODUCT
+                                {editingId ? 'UPDATE PRODUCT' : 'CREATE PRODUCT'}
                             </button>
                         </form>
                     </div>
