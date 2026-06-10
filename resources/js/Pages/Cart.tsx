@@ -8,14 +8,17 @@ import { HiOutlineLockClosed } from "react-icons/hi";
 // Mock Product Interface
 interface CartItem {
   id: string;
+  productId: string;
+  variantId?: string | null;
   name: string;
+  variantName?: string | null;
   specs: string;
   price: number;
   quantity: number;
   imageUrl?: string;
 }
 
-export const Cart = ({ productPrices }: { productPrices?: Record<string, number> }) => {
+export const Cart = ({ productPrices, variantPrices }: { productPrices?: Record<string, number>, variantPrices?: Record<string, number> }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   useEffect(() => {
@@ -26,8 +29,13 @@ export const Cart = ({ productPrices }: { productPrices?: Record<string, number>
 
       // Update prices from the server if available
       const updatedCart = parsedCart.map(item => {
-        if (productPrices && productPrices[item.id] !== undefined) {
-          return { ...item, price: productPrices[item.id] };
+        if (item.variantId && variantPrices && variantPrices[item.variantId] !== undefined && variantPrices[item.variantId] !== null) {
+            return { ...item, price: variantPrices[item.variantId] };
+        }
+        // Fallback or if it's a main product id
+        const priceLookupId = item.productId || item.id;
+        if (productPrices && productPrices[priceLookupId] !== undefined && productPrices[priceLookupId] !== null) {
+          return { ...item, price: productPrices[priceLookupId] };
         }
         return item;
       });
@@ -35,7 +43,7 @@ export const Cart = ({ productPrices }: { productPrices?: Record<string, number>
       setCartItems(updatedCart);
       localStorage.setItem("cart", JSON.stringify(updatedCart));
     }
-  }, [productPrices]);
+  }, [productPrices, variantPrices]);
 
   const updateQuantity = (id: string, delta: number) => {
     const updatedCart = cartItems.map((item) => {
@@ -89,7 +97,10 @@ export const Cart = ({ productPrices }: { productPrices?: Record<string, number>
 
                     <div className="flex flex-col justify-between grow">
                       <div>
-                        <h3 className="text-xl font-bold text-clarity-lighter mb-1">{item.name}</h3>
+                        <h3 className="text-xl font-bold text-clarity-lighter mb-1">
+                            {item.name}
+                            {item.variantName && <span className="text-emph-light text-sm ml-2">[{item.variantName}]</span>}
+                        </h3>
                         <p className="text-xs text-clarity-light mb-4">{item.specs}</p>
                       </div>
 
