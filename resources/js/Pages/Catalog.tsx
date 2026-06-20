@@ -4,7 +4,12 @@ import { Link } from '@inertiajs/react';
 import { MdFavoriteBorder } from "react-icons/md";
 import { ListProductsShort } from "@/types";
 
-
+/**
+ * Componente Catalog (Página de Catálogo)
+ *
+ * Muestra una grilla interactiva con los productos disponibles filtrables por categoría.
+ * Permite la navegación rápida al detalle del producto individual.
+ */
 export const Catalog = ({ products, currentCategory }: ListProductsShort) => {
   const getFilterClass = (category: string | null) => {
     const isActive = category === currentCategory || (category === null && !currentCategory);

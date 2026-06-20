@@ -10,7 +10,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Review
+ * Clase Review
+ *
+ * Representa una reseña o comentario dejado por un usuario sobre un producto.
  * 
  * @property int $id
  * @property int $product_id
@@ -47,6 +49,10 @@ class Review extends Model
 		'timestamp'
 	];
 
+	/**
+	 * Obtiene el producto al cual se le realizó esta reseña.
+	 * Relación muchos a 1 con Product.
+	 */
 	public function product()
 	{
 		return $this->belongsTo(Product::class);

@@ -6,6 +6,13 @@ import Categories from "@/Components/Categories";
 import FeaturedProducts from "@/Components/FeaturedProducts";
 import Newsletter from "@/Components/Newsletter";
 
+/**
+ * Componente Home (Página de Inicio)
+ *
+ * Es la portada principal de la aplicación.
+ * Muestra un Hero, categorías destacadas, productos destacados y el componente de suscripción.
+ */
+
 const Hero = () => {
   const gradient =
     "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 100%)";

@@ -11,7 +11,10 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Order
+ * Clase Order
+ *
+ * Representa un pedido realizado en el sistema.
+ * Puede estar asociado a un usuario registrado o tener un correo de invitado.
  * 
  * @property int $id
  * @property int|null $user_id
@@ -42,11 +45,19 @@ class Order extends Model
 		'status'
 	];
 
+	/**
+	 * Obtiene el usuario asociado a este pedido, si existe.
+	 * Relación muchos a 1 con User.
+	 */
 	public function user()
 	{
 		return $this->belongsTo(User::class);
 	}
 
+	/**
+	 * Obtiene los artículos incluidos en este pedido.
+	 * Relación 1 a muchos con OrderItem.
+	 */
 	public function order_items()
 	{
 		return $this->hasMany(OrderItem::class);

@@ -10,7 +10,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class NewsletterSubscriber
+ * Clase NewsletterSubscriber
+ *
+ * Almacena la información de los usuarios suscritos al boletín de noticias.
  * 
  * @property int $id
  * @property string $email

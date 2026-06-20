@@ -7,8 +7,18 @@ use Inertia\Inertia;
 use App\Models\Product;
 use App\Models\ProductVariant;
 
+/**
+ * Controlador de Carrito
+ *
+ * Gestiona la carga de la vista del carrito de compras y la página de confirmación.
+ */
 class CartController extends Controller
 {
+    /**
+     * Renderiza la vista del carrito.
+     * Extrae de la base de datos de manera segura los precios de productos y variantes
+     * para enviarlos al cliente y evitar alteraciones manuales de precios en el navegador.
+     */
     public function index()
     {
         $productPrices = Product::pluck('base_price', 'id');
@@ -20,6 +30,9 @@ class CartController extends Controller
         ]);
     }
 
+    /**
+     * Renderiza la vista de confirmación de compra exitosa.
+     */
     public function checkoutSuccess()
     {
         return Inertia::render('CheckoutSuccess');

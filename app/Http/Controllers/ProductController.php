@@ -7,10 +7,18 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
+/**
+ * Controlador de Productos
+ *
+ * Gestiona la visualización pública del catálogo de productos y de la página
+ * individual de detalles del producto, conectándose a InertiaJS.
+ */
 class ProductController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra el catálogo de productos.
+     * Filtra los productos por categoría si se proporciona en la solicitud.
+     * Renderiza la vista React 'Catalog'.
      */
     public function catalog(Request $request) : Response
     {
@@ -45,7 +53,11 @@ class ProductController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Muestra la página de detalles de un producto en específico.
+     * Carga de forma impaciente (eager loading) las variantes del producto.
+     * Renderiza la vista React 'Product'.
+     *
+     * @param int $id El ID del producto.
      */
     public function show($id): Response
     {

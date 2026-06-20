@@ -45,6 +45,9 @@ export const Cart = ({ productPrices, variantPrices }: { productPrices?: Record<
     }
   }, [productPrices, variantPrices]);
 
+  /**
+   * Actualiza la cantidad de un ítem en específico del carrito.
+   */
   const updateQuantity = (id: string, delta: number) => {
     const updatedCart = cartItems.map((item) => {
       if (item.id === id) {
@@ -57,6 +60,9 @@ export const Cart = ({ productPrices, variantPrices }: { productPrices?: Record<
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
+  /**
+   * Elimina un ítem del carrito basado en su identificador único.
+   */
   const removeItem = (id: string) => {
     const updatedCart = cartItems.filter((item) => item.id !== id);
     setCartItems(updatedCart);

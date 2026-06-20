@@ -11,7 +11,9 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class User
+ * Clase User
+ *
+ * Modelo de usuario que interactúa con la tienda, incluyendo clientes y administradores.
  * 
  * @property int $id
  * @property string $email
@@ -36,6 +38,10 @@ class User extends Model
 		'role'
 	];
 
+	/**
+	 * Obtiene todos los pedidos realizados por el usuario.
+	 * Relación 1 a muchos con Order.
+	 */
 	public function orders()
 	{
 		return $this->hasMany(Order::class);

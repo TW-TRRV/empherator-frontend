@@ -9,7 +9,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class ViewProductCatalog
+ * Clase ViewProductCatalog
+ *
+ * Representa una vista (view) de la base de datos pre-computada para el catálogo,
+ * la cual optimiza las consultas incluyendo el inventario total y recuento de variantes.
  * 
  * @property int $product_id
  * @property string $product_name

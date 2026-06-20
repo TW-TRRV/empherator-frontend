@@ -6,6 +6,12 @@ const categories = [
   { id: 3, name: "AUDIO", image: "https://images.squarespace-cdn.com/content/v1/5a6a2d73bff200e7e9dde1f9/27f777e1-244d-409b-98c2-1f6ea77119a1/Kali-Audio-LonePine-V2-SecondWave-Studio-Monitors-Family.jpeg" },
 ];
 
+/**
+ * Componente Categories (Categorías)
+ *
+ * Muestra accesos directos visuales a las categorías principales de la tienda
+ * utilizando imágenes y redireccionando al usuario al catálogo filtrado.
+ */
 export const Categories = () => {
   return (
     <section className="bg-obscure-darker py-16 px-4 md:px-8 lg:px-20 text-clarity-lighter">

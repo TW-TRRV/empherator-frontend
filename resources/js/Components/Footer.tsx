@@ -1,6 +1,12 @@
 import { SiInstagram, SiTiktok, SiWhatsapp } from "react-icons/si";
 import { Link } from '@inertiajs/react';
 
+/**
+ * Componente Footer (Pie de Página)
+ *
+ * Muestra información de la marca, enlaces de soporte, links de navegación
+ * y accesos a redes sociales en la parte inferior de la aplicación.
+ */
 export const Footer = () => {
   return (
     <footer className="w-full bg-obscure-darker px-4 md:px-20 lg:px-40 xl:px-82.5 border-t border-obscure-lightest">

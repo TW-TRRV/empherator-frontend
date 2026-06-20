@@ -3,6 +3,12 @@ import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/Footer";
 import { Link } from '@inertiajs/react';
 
+/**
+ * Componente CheckoutSuccess (Página de Éxito)
+ *
+ * Se muestra tras completar exitosamente un pedido.
+ * Agradece al usuario y borra el carrito local.
+ */
 export default function CheckoutSuccess() {
     useEffect(() => {
         localStorage.removeItem('cart');

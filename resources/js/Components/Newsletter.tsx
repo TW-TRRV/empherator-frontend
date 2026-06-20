@@ -1,3 +1,9 @@
+/**
+ * Componente Newsletter (Boletín de Noticias)
+ *
+ * Renderiza un formulario simple para que los usuarios puedan suscribirse
+ * ingresando su correo electrónico.
+ */
 export const Newsletter = () => {
   return (
     <section className="relative py-24 px-4 md:px-8 lg:px-20 text-clarity-lighter bg-obscure-dark overflow-hidden border-b border-obscure-light">

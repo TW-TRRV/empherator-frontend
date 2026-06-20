@@ -12,6 +12,12 @@ interface FeaturedProductsProps {
   products: Product[];
 }
 
+/**
+ * Componente FeaturedProducts (Productos Destacados)
+ *
+ * Muestra una grilla con los productos marcados como destacados (`is_featured`).
+ * Se utiliza comúnmente en la página de inicio.
+ */
 export const FeaturedProducts = ({ products }: FeaturedProductsProps) => {
   return (
     <section className="bg-obscure py-16 px-4 md:px-8 lg:px-20 text-clarity-lighter">
