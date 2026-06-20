@@ -3,6 +3,11 @@ import { MdArrowForward } from "react-icons/md";
 import { Navbar } from "@/Components/Navbar";
 import { Footer } from "@/Components/Footer";
 
+/**
+ * Componente Register (Página de Registro)
+ *
+ * Permite a los nuevos usuarios crear una cuenta en el sistema.
+ */
 export const Register = () => {
   return (
     <div className="flex flex-col min-h-screen">

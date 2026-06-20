@@ -5,6 +5,12 @@ import { useState } from 'react';
 
 export const ERROR = "Product Not Found";
 
+/**
+ * Componente ProductView (Página de Detalle de Producto)
+ *
+ * Muestra la información detallada de un producto específico, incluyendo
+ * galería de imágenes, selector de variantes y especificaciones técnicas.
+ */
 const ProductView = (prod: ProductProp) => {
     const placeholderImageUrl = "https://placehold.co/600x400?text=Error :o";
     console.log("Received product prop:", prod);
@@ -25,6 +31,11 @@ const ProductView = (prod: ProductProp) => {
         ? JSON.parse(selectedVariant.images)
         : (prod.product ? JSON.parse(prod.product.default_images) : { primary: '', gallery: [] });
 
+    /**
+     * Agrega el producto seleccionado (con su variante respectiva) al carrito
+     * guardándolo localmente en LocalStorage. Si el ítem ya existe, incrementa
+     * la cantidad.
+     */
     const addToCart = () => {
         const savedCart = localStorage.getItem("cart");
         let cartItems = savedCart ? JSON.parse(savedCart) : [];

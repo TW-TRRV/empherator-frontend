@@ -5,6 +5,12 @@ import { Link } from '@inertiajs/react';
 
 import { router } from '@inertiajs/react';
 
+/**
+ * Componente Login (Página de Inicio de Sesión)
+ *
+ * Permite a los usuarios registrados acceder a su cuenta.
+ * Incluye un mock login que redirecciona a la ruta de admin.
+ */
 export const Login = () => {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();

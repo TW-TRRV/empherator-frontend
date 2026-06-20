@@ -7,8 +7,18 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Controlador de Administración de Productos
+ *
+ * Gestiona el listado, creación, actualización y eliminación de productos y sus variantes
+ * desde el panel administrativo.
+ */
 class AdminProductController extends Controller
 {
+    /**
+     * Muestra la lista de productos en el panel de administración.
+     * Carga los productos junto con sus variantes.
+     */
     public function index(Request $request)
     {
         $query = Product::with('product_variants');
@@ -28,6 +38,11 @@ class AdminProductController extends Controller
         ]);
     }
 
+    /**
+     * Valida y guarda un nuevo producto en la base de datos, junto a sus variantes.
+     *
+     * @param Request $request La solicitud entrante con los datos del producto.
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -105,6 +120,13 @@ class AdminProductController extends Controller
         return redirect('/admin/products')->with('success', 'Product created successfully.');
     }
 
+    /**
+     * Valida y actualiza los detalles de un producto existente y sus variantes.
+     * También sincroniza las variantes (actualiza, crea o elimina según sea necesario).
+     *
+     * @param Request $request La solicitud con los datos actualizados.
+     * @param int $id El ID del producto a actualizar.
+     */
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
@@ -197,6 +219,11 @@ class AdminProductController extends Controller
         return redirect('/admin/products')->with('success', 'Product updated successfully.');
     }
 
+    /**
+     * Elimina el producto especificado de la base de datos.
+     *
+     * @param int $id El ID del producto a eliminar.
+     */
     public function destroy($id)
     {
         $product = Product::findOrFail($id);

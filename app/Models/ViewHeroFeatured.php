@@ -9,7 +9,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class ViewHeroFeatured
+ * Clase ViewHeroFeatured
+ *
+ * Representa una vista (view) de la base de datos optimizada para mostrar
+ * los productos destacados en la sección Hero o principal.
  * 
  * @property int $id
  * @property string $category

@@ -4,6 +4,9 @@ import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/Footer";
 import { FaTrash, FaSearch, FaEdit } from 'react-icons/fa';
 
+/**
+ * Interfaz que define la estructura de una variante de producto en el panel de administración.
+ */
 interface ProductVariant {
     id: number;
     sku: string;
@@ -40,6 +43,12 @@ interface Props {
     filters: { search?: string };
 }
 
+/**
+ * Componente AdminProducts (Panel Administrativo de Productos)
+ *
+ * Interfaz de administración para gestionar el catálogo completo. Permite
+ * crear, actualizar, eliminar y buscar productos, así como gestionar sus variantes.
+ */
 export default function AdminProducts({ products, filters }: Props) {
     const [searchTerm, setSearchTerm] = useState(filters.search || '');
     const [editingId, setEditingId] = useState<number | null>(null);

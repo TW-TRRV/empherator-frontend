@@ -1,6 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { MdMenu, MdOutlineSearch, MdOutlineShoppingCart } from "react-icons/md";
 import { Link } from '@inertiajs/react';
+
+/**
+ * Interfaz de propiedades para el componente NavLink
+ */
 interface NavLinkProps {
   text: string;
   hrf: string;
@@ -15,16 +19,22 @@ const NavLink = ({ text, hrf, className = "" }: NavLinkProps) => {
   );
 };
 
-
+/**
+ * Componente Navbar principal.
+ *
+ * Gestiona la navegación de la aplicación, barra de búsqueda en forma de modal interactivo,
+ * e integra los menús tanto para desktop como para mobile.
+ */
 export const Navbar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isWideMenuOpen, setIsWideMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
+  // Efecto que enfoca el input del buscador una vez que se abre el modal.
   useEffect(() => {
     if (isSearchOpen && searchInputRef.current) {
-      // Focus after a short delay to allow transition to start, or focus immediately
+      // Enfoca el input permitiendo escribir inmediatamente
       searchInputRef.current.focus();
     }
   }, [isSearchOpen]);

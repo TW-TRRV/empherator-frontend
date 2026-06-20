@@ -11,7 +11,10 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Product
+ * Clase Product
+ *
+ * Este modelo representa un producto en el catálogo. Define sus atributos, precios, especificaciones
+ * técnicas y referencias de imágenes.
  * 
  * @property int $id
  * @property string $category
@@ -70,11 +73,19 @@ class Product extends Model
 		'is_featured'
 	];
 
+	/**
+	 * Obtiene las variantes asociadas a este producto.
+	 * Relación 1 a muchos con ProductVariant.
+	 */
 	public function product_variants()
 	{
 		return $this->hasMany(ProductVariant::class);
 	}
 
+	/**
+	 * Obtiene las reseñas asociadas a este producto.
+	 * Relación 1 a muchos con Review.
+	 */
 	public function reviews()
 	{
 		return $this->hasMany(Review::class);

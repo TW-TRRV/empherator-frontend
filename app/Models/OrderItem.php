@@ -9,7 +9,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class OrderItem
+ * Clase OrderItem
+ *
+ * Representa un artículo individual dentro de un pedido.
+ * Contiene el registro inmutable del precio al momento de la compra.
  * 
  * @property int $id
  * @property int $order_id
@@ -41,11 +44,19 @@ class OrderItem extends Model
 		'price_at_purchase'
 	];
 
+	/**
+	 * Obtiene el pedido padre al que pertenece este artículo.
+	 * Relación muchos a 1 con Order.
+	 */
 	public function order()
 	{
 		return $this->belongsTo(Order::class);
 	}
 
+	/**
+	 * Obtiene la variante de producto específica comprada en este artículo.
+	 * Relación muchos a 1 con ProductVariant.
+	 */
 	public function product_variant()
 	{
 		return $this->belongsTo(ProductVariant::class, 'variant_id');
