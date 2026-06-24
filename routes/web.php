@@ -6,12 +6,15 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CheckoutController;
 
 Route::get('/catalog', [ProductController::class, 'catalog']);
 
 Route::get('/', [PageController::class, 'home']);
 
 Route::get('/cart', [CartController::class, 'index']);
+
+Route::post('/checkout', [CheckoutController::class, 'process']);
 
 Route::get('/checkout-success', [CartController::class, 'checkoutSuccess']);
 
