@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/Footer";
-import { Link } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
 import { MdClose } from "react-icons/md";
 import { HiOutlineLockClosed } from "react-icons/hi";
 
@@ -20,6 +20,8 @@ interface CartItem {
 
 export const Cart = ({ productPrices, variantPrices }: { productPrices?: Record<string, number>, variantPrices?: Record<string, number> }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const { errors } = usePage().props as { errors: Record<string, string> };
+  const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
     // Load from local storage
@@ -72,6 +74,29 @@ export const Cart = ({ productPrices, variantPrices }: { productPrices?: Record<
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const tax = subtotal * 0.08; // 8% tax mock
   const total = subtotal + tax;
+
+  const handleCheckout = () => {
+    if (cartItems.length === 0) return;
+
+    setIsProcessing(true);
+
+    const itemsPayload = cartItems.map(item => ({
+        variantId: item.variantId ? parseInt(item.variantId) : null,
+        productId: item.productId ? parseInt(item.productId) : parseInt(item.id),
+        quantity: item.quantity
+    }));
+
+    router.post('/checkout', { items: itemsPayload }, {
+        onSuccess: () => {
+            setCartItems([]);
+            localStorage.removeItem("cart");
+            setIsProcessing(false);
+        },
+        onError: () => {
+            setIsProcessing(false);
+        }
+    });
+  };
 
   return (
     <div className="bg-obscure-darker min-h-screen font-sans">
@@ -166,11 +191,18 @@ export const Cart = ({ productPrices, variantPrices }: { productPrices?: Record<
                 <span className="text-3xl font-bold text-clarity-lighter">${total.toFixed(2)}</span>
               </div>
 
-              <Link href="/checkout-success">
-                <button className="w-full bg-emph-light hover:bg-emph text-obscure-darker font-bold py-3 mb-4 transition-colors">
-                  PROCEED TO CHECKOUT
-                </button>
-              </Link>
+              {errors.checkout && (
+                  <div className="mb-4 p-3 bg-red-900/50 border border-red-500 text-red-200 text-sm">
+                      {errors.checkout}
+                  </div>
+              )}
+
+              <button
+                onClick={handleCheckout}
+                disabled={isProcessing || cartItems.length === 0}
+                className="w-full bg-emph-light hover:bg-emph text-obscure-darker font-bold py-3 mb-4 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                  {isProcessing ? "PROCESSING..." : "PROCEED TO CHECKOUT"}
+              </button>
 
               <Link href="/">
                 <button className="w-full border border-obscure-light text-clarity-lighter hover:bg-obscure-light font-bold py-3 mb-6 transition-colors">
